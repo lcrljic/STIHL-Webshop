@@ -6,7 +6,7 @@ namespace EdunovaAPP.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class KupacController
+    public class KupacController:ControllerBase
     {
         // Dependency injection
         // Definiraš privatno svojstvo
