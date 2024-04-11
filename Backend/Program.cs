@@ -1,4 +1,4 @@
-using EdunovaAPP.Data;
+﻿using EdunovaAPP.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,12 +10,20 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Svi se od svuda na sve moguće načine mogu spojiti na naš API
+//Čitati: https://code-maze.com/aspnetcore-webapi-best-practices/
+builder.Services.AddCors(opcije =>
+{
+    opcije.AddPolicy("CorsPolicy",
+        builder =>
+            builder.AllowAnyOrigin().AllowAnyOrigin().AllowAnyHeader()
+    );
+});
+
 // Dodavanje baze podataka
 builder.Services.AddDbContext<EdunovaContext>(o => {
     o.UseSqlServer(builder.Configuration.GetConnectionString("EdunovaContext"));
 });
-
-
 
 var app = builder.Build();
 
@@ -34,6 +42,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("CorsPolicy");
 
 app.UseStaticFiles();
 app.UseDefaultFiles();
