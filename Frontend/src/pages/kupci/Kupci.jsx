@@ -54,7 +54,7 @@ export default function Kupci(){
                         </tr>
                     </thead>
                     <tbody>
-                        {kupci && kupci.map((kupci,index)=>(
+                        {kupci && kupci.map((kupac,index)=>(
                             <tr key={index}>
                                 <td>{kupac.ime}</td>
                                 <td>{kupac.trajanje}</td>
