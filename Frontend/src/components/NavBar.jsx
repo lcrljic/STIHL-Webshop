@@ -29,14 +29,6 @@ export default function NavBar(){
                     <NavDropdown.Item 
                     onClick={()=>navigate(RoutesNames.KUPAC_PREGLED)}
                     >Kupci</NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
-                       Proizvodi
-                    </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.3">Računi</NavDropdown.Item>
-                
-                    <NavDropdown.Item href="#action/3.4">
-                        Stavke
-                    </NavDropdown.Item>
                     </NavDropdown>
                 </Nav>
                 

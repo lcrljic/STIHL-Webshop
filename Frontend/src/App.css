@@ -5,3 +5,11 @@
 .siroko{
   width: 100%;
 }
+
+body{
+  background-image: url(/dist/assets/bg.jpg);
+  background-position: center;
+  background-size:cover;
+  background-repeat: no-repeat;
+  margin-bottom: 15%;
+}

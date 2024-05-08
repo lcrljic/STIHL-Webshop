@@ -42,7 +42,7 @@ export default function Kupci(){
     return(
         <>
            <Container>
-            <Link to={RoutesNames.KUPAC_NOVI}> Dodaj </Link>
+            <Link to={RoutesNames.KUPAC_NOVI} className='btn btn-success siroko'> Dodaj </Link>
             <Table striped bordered hover responsive>
                     <thead>
                         <tr>
@@ -57,8 +57,8 @@ export default function Kupci(){
                         {kupci && kupci.map((kupac,index)=>(
                             <tr key={index}>
                                 <td>{kupac.ime}</td>
-                                <td>{kupac.trajanje}</td>
-                                <td>{kupac.cijena}</td>
+                                <td>{kupac.prezime}</td>
+                                <td>{kupac.mjesto}</td>
                                 <td>{kupac.ulicaIBroj}</td>
                                 <td>{kupac.brojMobitela}</td>
                                 <td>
