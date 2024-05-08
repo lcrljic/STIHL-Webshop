@@ -1,73 +1,32 @@
-﻿using EdunovaAPP.Data;
-using EdunovaAPP.Models;
+﻿using Backend.Data;
+using Backend.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Text;
 
-namespace EdunovaAPP.Controllers
+namespace Backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class KupacController:ControllerBase
+    public class KupacController : StihlWebshopController<Kupac, KupacDTORead, KupacDTOInsertUpdate>
     {
-        // Dependency injection
-        // Definiraš privatno svojstvo
-        private readonly EdunovaContext _context;
-
-        // Dependency injection
-        // U konstruktoru primir instancu i dodjeliš privatnom svojstvu
-        public KupacController(EdunovaContext context)
+        public KupacController(EdunovaContext context) : base(context)
         {
-            _context = context;
+            Dbset = _context.Kupci;
         }
-
-
-        [HttpGet]
-        public IActionResult Get()
+        protected override void KontrolaBrisanje(Kupac entitet)
         {
-            return new JsonResult(_context.Kupci.ToList());
-        }
+            var lista = _context.Racuni
+                .Include(x => x.Kupac)
+                .Where(x => x.Kupac.Sifra == entitet.Sifra)
+                .ToList();
+            if (lista != null && lista.Count > 0)
+            {
 
-        [HttpGet]
-        [Route("{sifra:int}")]
-        public IActionResult GetBySifra(int sifra)
-        {
-            return new JsonResult(_context.Kupci.Find(sifra));
-        }
 
-        [HttpPost]
-        public IActionResult Post(Kupac smjer)
-        {
-            _context.Kupci.Add(smjer);
-            _context.SaveChanges();
-            return new JsonResult(smjer);
-        }
-
-        [HttpPut]
-        [Route("{sifra:int}")]
-        public IActionResult Put(int sifra, Kupac smjer)
-        {
-            var smjerIzBaze = _context.Kupci.Find(sifra);
-            // za sada ručno, kasnije će doći Mapper
-            smjerIzBaze.Ime = smjer.Ime;
-            smjerIzBaze.Prezime= smjer.Prezime;
-            smjerIzBaze.Mjesto= smjer.Mjesto;
-            smjerIzBaze.UlicaIBroj=smjer.UlicaIBroj;
-            smjerIzBaze.BrojMobitela=smjer.BrojMobitela;
-
-            _context.Kupci.Update(smjerIzBaze);
-            _context.SaveChanges();
-
-            return new JsonResult(smjerIzBaze);
-        }
-
-        [HttpDelete]
-        [Route("{sifra:int}")]
-        [Produces("application/json")]
-        public IActionResult Delete(int sifra)
-        {
-            var smjerIzBaze = _context.Kupci.Find(sifra);
-            _context.Kupci.Remove(smjerIzBaze);
-            _context.SaveChanges();
-            return new JsonResult(new { poruka="Obrisano"});
+                throw new Exception("Kupac se ne moze obrist jer ima racune"); // umjesto sb.ToString().Substring(0, sb.ToString().Length - 2)
+            }
         }
 
     }
